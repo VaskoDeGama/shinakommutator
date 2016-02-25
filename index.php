@@ -3,11 +3,14 @@
 <head>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 	<script src="js/shinaandkomm.js"></script>
-	<link rel="stylesheet" href="../css/style.css">
+	<link rel="stylesheet" href="css/style.css">
 	<meta charset="UTF-8">
 	<title>Каменюк В.А.| Шина и Коммутатор</title>
 </head>
 <body>
+	<div class = 'contentlog shadow bordered' id='log'>
+		
+	</div>
 	<div class='content shadow bordered '>
 	<span id="proc"></span></br>
 	<span id="block"></span></br>
@@ -25,7 +28,7 @@
 		<label id="kr2"></label><INPUT type="radio" value='0' name='kr' id='kr2'>
 		<label id="kr3"></label><INPUT type="radio" value='0' name='kr' id='kr3'>
 	</p>
-	<span>Время обращзения к памяти: </span>
+	<span>Время обращения к памяти: </span>
 	<p>
 		<label id="m1"></label><INPUT type="radio" checked="checked" value='0' name='m' id='m1'>
 		<label id="m2"></label><INPUT type="radio" value='0' name='m' id='m2'>
@@ -43,7 +46,7 @@
 			<span>Время выполнения на базе коммутатора</span></br>
 			<span class="result" id="rezultcom"></span></br>
 		</div>
-		
 	</div>
+	
 </body>
 </html>

@@ -1,7 +1,7 @@
 body {
 	margin: auto;
 	background: url(../img/bg.png);
-	font-size: 15px;
+	font-size: 16px;
 	color:#ccc;
 	font-family: Geneva, Arial, Helvetica, sans-serif;
 }
@@ -9,9 +9,9 @@ body {
 .content {
 	width: 400px;
 	min-height: 200px;
+	margin:50px;
 	overflow: hidden;
 	display: block;
-	margin:auto;
 	margin-bottom: 20px;
 	margin-top: 20px;
 	padding: 10px;
@@ -54,4 +54,41 @@ body {
 	font-size: 50px;
 	color: red;
 	text-shadow: 4px 4px 6px rgba(0, 0, 0, 1);
+}
+.contentlog {
+	float: left;
+	width: 600px;
+	margin:40px;
+	min-height: 580px;
+	overflow: auto;
+	display: block;
+	margin-bottom: 20px;
+	margin-top: 0px;
+	padding: 10px;
+	background: url(../img/noisy-texture-100x100-o2-d16-c-525252-t1.png);
+	background: rgba(107,107,107,1);
+	background: -moz-linear-gradient(top, rgba(107,107,107,1) 0%, rgba(74,74,74,1) 100%);
+	background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(107,107,107,1)), color-stop(100%, rgba(74,74,74,1)));
+	background: -webkit-linear-gradient(top, rgba(107,107,107,1) 0%, rgba(74,74,74,1) 100%);
+	background: -o-linear-gradient(top, rgba(107,107,107,1) 0%, rgba(74,74,74,1) 100%);
+	background: -ms-linear-gradient(top, rgba(107,107,107,1) 0%, rgba(74,74,74,1) 100%);
+	background: linear-gradient(to bottom, rgba(107,107,107,1) 0%, rgba(74,74,74,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6b6b6b', endColorstr='#4a4a4a', GradientType=0 );
+	text-shadow: 4px 4px 6px rgba(0, 0, 0, 1);
+}
+.in{
+	color: white;
+}
+.out{
+	color: green;
+}
+.wait{
+	color: red;
+}
+
+.time {
+	color: orange;
+}
+.number {
+	color: orange;
 }

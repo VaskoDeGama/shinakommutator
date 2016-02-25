@@ -4,8 +4,8 @@ var pn = [0.9,0.7]; // Процент данных, используемых п�
 var k = 10; // Кол-во команд
 var kr = [0.9,0.8,0.6]; // Процент команд не требующих обращения к памяти
 var m = [2,5,10]; // Время обращение к памяти
-var ye = 1; // величина условно единицы времени
-var tranzit = ye/5; //время транзита
+var ye = 2; // величина условно единицы времени
+var tranzit = ye/2; //время транзита
 var cash = [1,2,3,4]; //память
 /*console.log("Кол-во процессоров: " + proc);
 console.log("Кол-во блоков памяти: " + block);
@@ -38,6 +38,7 @@ console.log("Условная единица времени: " + ye +"c");*/
         $('input:radio[id=m2]').val(m[1]);
         $('input:radio[id=m3]').val(m[2]);
 
+
     /*$( "input:radio[name=pn]" ).click(function() {
   			var nowPn = $('input:radio:checked[name=pn]').val();
  			alert(nowPn);		
@@ -50,23 +51,83 @@ console.log("Условная единица времени: " + ye +"c");*/
   			var nowPn = $('input:radio:checked[name=m]').val();
  			alert(nowPn);		
  		})*/
- 		$( "input[name=submit]" ).click(function() {
-  			var nowPn = $('input:radio:checked[name=pn]').val();
-  			var nowKr = $('input:radio:checked[name=kr]').val();
-  			var nowM = $('input:radio:checked[name=m]').val();
- 			//alert(nowPn + " " + nowKr + " " + nowM);		
-      var programBezPamuyt = k * nowKr;
-      var programSPamuyt = k - programBezPamuyt;
-      var timeBezPamuyt = programBezPamuyt * ye;
-      var timeSPamuyt = 0;
-      for (var i = 0; i < 4; i++) {
-          timeSPamuyt += tranzit + ye * nowM;
-          
-      };
-      var alltime = timeSPamuyt * programSPamuyt + timeBezPamuyt * proc;
-      $('#rezultbus').text(alltime+"c");
- 		})
+ 		 $( "input[name=submit]" ).click(function() {
+        $("#log").empty();
+  			var nowPn = $('input:radio:checked[name=pn]').val();//процент попадания в свой блок 
+  			var nowKr = $('input:radio:checked[name=kr]').val();//процент команд с обращнием
+  			var nowM = $('input:radio:checked[name=m]').val();//время обращения к памяти
+        nowM = parseInt(nowM);
+        var komandsWithPamat = k - (k * nowKr); // команды с образением к памяти кол-во
+        var timeWithOutPamat = 0; // время выполения команд без памяти
+        var timeWithPamat = 0; //время с памятью
+        var popalBul = false;
+        var alltime;
+        //--------------общая шина-----------------------//
+        //------------время без памяти-------------------//
+        $('#log').append('<H3>Моделирование общей шины</h3>');
+          for (var i = k - komandsWithPamat - 1; i >= 0; i--) {
+             timeWithOutPamat += ye;     };
 
-	});
+        for (var j = proc - 1; j >= 0; j--) {
+                  //------------------время с памятью-------------//
+          if (komandsWithPamat != 0) {
+            for (var i = komandsWithPamat - 1; i >= 0; i--) {
+                timeWithPamat = timeWithPamat + tranzit;
+                popalBul = false;
+                $("#log").append('<span> Команда <span class="number">' + (i + 1) + '</span> процессора <span class="number">' + (4 - j) + '</span> <span class="in">вошла</span>, время выполнения: <span class="time">' + timeWithPamat + ' </span>  </span></br>');
+
+                while (popalBul != true) {
+                  var popal = getRandomArbitary(0,100);
+                  if (popal <= nowPn * 100 ) {
+                    timeWithPamat = timeWithPamat + nowM + tranzit;
+                    popalBul = true;
+                     $("#log").append('<span> Команда <span class="number">' + (i + 1) + '</span> процессора <span class="number">' + (4 - j) + '</span> <span class="out">вышла</span>, время выполнения: <span class="time">' + timeWithPamat + ' </span> </span></br>');
+                    }
+                  else {
+                    timeWithPamat = timeWithPamat + tranzit + nowM;
+                    $("#log").append('<span> Команда <span class="number">' + (i + 1) + '</span> процессора <span class="number">' + (4 - j) + '</span> <span class="wait">ждет</span>, время выполнения: <span class="time">' + timeWithPamat + '</span> </span></br>');
+                  };
+                };
+            };
+            //alert(timeWithPamat);
+          };
+        };
+        alltime = timeWithPamat + timeWithOutPamat;
+        $('#rezultbus').text(alltime);
+
+
+        //--------------коммутатор шина-----------------------//
+        //------------время без памяти-------------------//
+        timeWithPamat = 0;
+        timeWithOutPamat = 0;
+        $('#log').append('<H3>Моделирование коммутатора</h3>');
+          for (var i = k - komandsWithPamat - 1; i >= 0; i--) {
+             timeWithOutPamat += ye;     };
+
+        for (var j = proc - 1; j >= 0; j--) {
+                  //------------------время с памятью-------------//
+          if (komandsWithPamat != 0) {
+            for (var i = komandsWithPamat - 1; i >= 0; i--) {
+                timeWithPamat = timeWithPamat + tranzit;
+                $("#log").append('<span> Команда <span class="number">' + (i + 1) + '</span> процессора <span class="number">' + (4 - j) + '</span> <span class="in">вошла</span>, время выполнения: <span class="time">' + timeWithPamat + ' </span>  </span></br>');
+                timeWithPamat = timeWithPamat + nowM + tranzit;
+                $("#log").append('<span> Команда <span class="number">' + (i + 1) + '</span> процессора <span class="number">' + (4 - j) + '</span> <span class="out">вышла</span>, время выполнения: <span class="time">' + timeWithPamat + ' </span> </span></br>');
+                };
+              };
+            };
+            //alert(timeWithPamat);
+        alltime = timeWithPamat + timeWithOutPamat;
+        $('#rezultcom').text(alltime);
+        //--------------общая шина-----------------------//  
+
+
+ 		 });
+    });
+
+function getRandomArbitary(min, max)
+{
+  return Math.random() * (max - min) + min;
+}
+
 
 
